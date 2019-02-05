@@ -1,0 +1,7 @@
+#!/bin/bash
+
+WHERE_I_AM=`hostname`
+
+if [ $WHERE_I_AM == "undy-VIII" ]; then
+    feh --bg-scale ~/Pictures/6aF30X.jpg
+fi

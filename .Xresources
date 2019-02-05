@@ -1,0 +1,136 @@
+! Undys ~/.Xresources
+
+!#include "/home/andrea/.colorscheme-solarized-dark"
+#include "/home/andrea/.colorscheme-gruvbox"
+
+*.color0:  COLOR0
+*.color1:  COLOR1
+*.color2:  COLOR2
+*.color3:  COLOR3
+*.color4:  COLOR4
+*.color5:  COLOR5
+*.color6:  COLOR6
+*.color7:  COLOR7
+*.color8:  COLOR8
+*.color9:  COLOR9
+*.color10: COLOR10
+*.color11: COLOR11
+*.color12: COLOR12
+*.color13: COLOR13
+*.color14: COLOR14
+*.color15: COLOR15
+
+*.background:   BACKGROUND
+*.foreground:   FOREGROUND
+*.cursorColor:  FOREGROUND
+
+*.font:         xft:Ubuntu Mono:size=11,style=regular
+
+!Xft.dpi: 96
+Xft.dpi: 110
+Xft.antialias: true
+Xft.hinting:   true
+Xft.autohint:  false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+Xft.rgba:      rgb
+
+
+!!!!!!!!!!!!!
+!!! URXVT !!!
+!!!!!!!!!!!!!
+
+!URxvt.background:      [99]#1d1f21
+!URxvt.background:      [99]BACKGROUND
+URxvt.font:            xft:Hack-Regular:pixelsize=14
+URxvt.depth:           32
+URxvt.intensityStyles: false
+URxvt.scrollBar:       false
+URxvt.scrollBar_right: true
+URxvt.cursorColor:     magenta
+URxvt.lineSpace:       1.2
+URxvt.letterSpace:     -1
+URxvt.internalBorder:  3
+URxvt.geometry:        160x25+30-50
+URxvt.iso14755:        false
+URxvt.modifier:        meta  ! copy/paste-to-clipboard: Meta+Ctrl+C/V [Meta=Alt]
+! URxvt.url-launcher:    chromium-browser
+
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #808080
+URxvt.colorUL:      #87afd7
+
+!! Extensions
+URxvt.perl-lib:      ~/.urxvt/ext
+URxvt.perl-ext-common: default,matcher,resize-font,tabbedex
+
+!! matcher [match strings and change their rendition]
+URxvt.matcher.button: 1
+
+!! resize-font [https://github.com/simmel/urxvt-resize-font]
+URxvt.resize-font.smaller:  C-Down
+URxvt.resize-font.bigger:   C-Up
+
+
+!! tabbedex  [https://github.com/mina86/urxvt-tabbedex]
+URxvt.tabbed.tabbedex-rs-prefix: tabbedex
+URxvt.keysym.Shift-Left:         tabbedex:prev_tab
+URxvt.keysym.Shift-Right:        tabbedex:next_tab
+URxvt.keysym.Shift-Down:         tabbedex:new_tab
+URxvt.keysym.Shift-Up:           tabbedex:rename_tab
+URxvt.keysym.Control-Left:       tabbedex:move_tab_left
+URxvt.keysym.Control-Right:      tabbedex:move_tab_right
+URxvt.keysym.Meta-F1:            tabbedex:goto_tab_1
+URxvt.keysym.Meta-F2:            tabbedex:goto_tab_2
+URxvt.keysym.Meta-F3:            tabbedex:goto_tab_3
+URxvt.keysym.Meta-F4:            tabbedex:goto_tab_4
+URxvt.keysym.Meta-F5:            tabbedex:goto_tab_5
+URxvt.keysym.Meta-F6:            tabbedex:goto_tab_6
+URxvt.keysym.Meta-F7:            tabbedex:goto_tab_7
+URxvt.keysym.Meta-F8:            tabbedex:goto_tab_8
+URxvt.keysym.Meta-F9:            tabbedex:goto_tab_9
+URxvt.keysym.Meta-F10:           tabbedex:goto_tab_10
+URxvt.keysym.Meta-F11:           tabbedex:goto_tab_11
+URxvt.keysym.Meta-F12:           tabbedex:goto_tab_12
+URxvt.keysym.Control-Shift-d:    tabbedex:kill_tab
+URxvt.keysym.Control-Tab:        tabbedex:next_tab
+URxvt.keysym.Control-Shift-Tab:  tabbedex:prev_tab
+
+! `Ctrl-t` opens a tab in the same directory as the one from which it is originated
+URxvt.keysym.Control-t: tabbedex:new_tab: -e %~/.urxvt/urxvt-tabbedex/pgid-cd.pl %p %E
+
+! `Shift-Down` opens a tab in the $HOME directory. If `Shift-Down` should do
+! the same as `Ctrl-t`, uncomment the following line.
+!URxvt.tabbed.tab-arguments: -e %~/.urxvt/urxvt-tabbedex/pgid-cd.pl %p %E
+
+URxvt.tabbedex.title:     false
+URxvt.tabbedex.tabbar-fg: 2
+URxvt.tabbedex.tabbar-bg: 0
+URxvt.tabbedex.tab-fg:    0
+URxvt.tabbedex.tab-bg:    2
+
+
+
+!!!!!!!!!!!!
+!!! rofi !!!
+!!!!!!!!!!!!
+
+rofi.font:              Ubuntu Regular 16
+rofi.fullscreen:        true
+rofi.color-enabled:     true
+rofi.eh:                1
+rofi.line-margin:       20
+rofi.separator-style:   solid
+rofi.hide-scrollbar:    true
+rofi.lines:             3
+rofi.width:             100
+rofi.padding:           200
+rofi.bw:                0
+rofi.show-icons:        true
+rofi.fake-transparency: true
+!rofi.opacity:         "10"
+
+rofi.color-window: argb:e8222D32,argb:00292f37,#EBCB8B
+rofi.color-normal: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#EBCB8B
+rofi.color-active: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#D8DEE9
+rofi.color-urgent: argb:02000000,#D8DEE9,argb:02000000,argb:02000000,#D8DEE9

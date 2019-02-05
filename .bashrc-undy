@@ -1,0 +1,221 @@
+#! /bin/bash
+
+##############################################
+# this file should be sourced from ~/.bashrc #
+#         *** 14/02/2014, by Undy ***        #
+##############################################
+
+THISPATH=`basename "$0"`
+THISFILE=${THISPATH##*/}
+
+# UNDY_FLAG_VERBOSE should be left undefined here, otherwise we'll have
+# verbosity each time the terminal is launched
+
+# some customization of the bash history
+HISTCONTROL=ignoreboth
+HISTSIZE=1000000
+HISTFILESIZE=2000000
+
+# Customized prompt shell. For colors and formatting see:
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
+# PS1='\e[1m\[\e[38;5;107m\]\u@\h\[\e[38;5;67m\] \w \$\[\e[39m\]\e[0m '
+PS1='\e[1m\[\e[38;5;10m\]\u@\h\[\e[38;5;4m\] \w \$\[\e[39m\]\e[0m '
+
+
+#########################################################
+# If I put spaces in the path I will get what I deserve #
+#########################################################
+UNDY_DIR_HOME=~
+UNDY_DIR_PC_LOCAL=/media/UNDY/ANDREA/PC
+UNDY_DIR_PC_DROPBOX=${UNDY_DIR_HOME}/Dropbox/Link_to_ANDREA/PC
+
+
+#########################################################################
+# Define UNDY_DIR_PC (local folder, if exist, otherwise dropbox folder) #
+#########################################################################
+if [ -d ${UNDY_DIR_PC_LOCAL} ]; then
+    UNDY_DIR_PC=${UNDY_DIR_PC_LOCAL}
+elif [ -d ${UNDY_DIR_PC_DROPBOX} ]; then
+    UNDY_DIR_PC=${UNDY_DIR_PC_DROPBOX}
+else
+    UNDY_DIR_PC=`pwd`
+    if [ "${UNDY_FLAG_VERBOSE}" = "1" ]; then
+        echo "[$THISFILE] WARNING! Cannot find neither'${UNDY_DIR_PC_LOCAL}' nor '${UNDY_DIR_PC_DROPBOX}'"
+    fi
+fi
+
+export UNDY_DIR_HOME
+export UNDY_DIR_PC
+
+if [ "${UNDY_FLAG_VERBOSE}" = "1" ]; then
+    echo "[$THISFILE] UNDY_DIR_HOME="${UNDY_DIR_HOME}
+    echo "[$THISFILE] UNDY_DIR_PC="${UNDY_DIR_PC}
+fi
+
+
+
+####################################################################
+# Aggiunta al percorso di default della cartella con i miei script #
+####################################################################
+if [ -d ${UNDY_DIR_PC}/scripts ]; then
+    export PATH=${UNDY_DIR_PC}/scripts:$PATH
+    [ "${UNDY_FLAG_VERBOSE}" = "1" ] && echo "[$THISFILE] PATH=$PATH"
+fi
+
+
+
+################################################
+# load autojump (sudo apt-git install autojump #
+################################################
+[ -f /usr/share/autojump/autojump.sh ] && . /usr/share/autojump/autojump.sh
+
+
+
+
+if [ -d ${UNDY_DIR_PC}/undy_appunti ]; then
+    export UNDY_DIR_APPUNTI=${UNDY_DIR_PC}/undy_appunti
+    [ "${UNDY_FLAG_VERBOSE}" = "1" ] && echo "[$THISFILE] UNDY_DIR_APPUNTI=$UNDY_DIR_APPUNTI"
+fi
+
+if [ "${UNDY_FLAG_VERBOSE}" = "1" ] && [ -z ${UNDY_DIR_APPUNTI+x} ]; then
+    echo "[$THISFILE] WARNING! UNDY_DIR_APPUNTI is undefined"
+fi
+
+
+
+
+
+################################################################################
+# archivia+compatta (7zta) e archivia+scompatta (7ztx) con p7zip ed eventuale  #
+# uso di password                                                              #
+# utilizzo: 7zta cartella_da_elaborare [password]                              #
+#           7ztx cartella_da_elaborare[.tar.7z]                                #
+# by Undy / Marseille, 18.9.2011                                               #
+################################################################################
+7zta() {
+    if [ $# -eq 1 ]; then
+        tar cvf - $1 | 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on -si $1.tar.7z
+    else
+        tar cvf - $1 | 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on -si -p$2 $1.tar.7z
+    fi
+}
+
+7ztx() {
+    dir=$1
+    dir=${dir//.tar.7z/} # elimina eventuale estensione .tar.7z
+    7z x -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on -so $dir.tar.7z | tar xvf -
+}
+
+
+function bcam_send {
+    MyDirFullPath=${1}
+    MyDirName=$(basename ${MyDirFullPath})
+    tar zcvf - ${MyDirFullPath} | ssh amentrelli@hpc.bcamath.org -p6556 "cat > ~/"${MyDirName}".tar.gz"
+}
+
+function bcam_recv {
+    MyDir=${1}
+    scp -r -P 6556 amentrelli@hpc.bcamath.org:/home/amentrelli/${MyDir} .
+}
+
+
+
+
+############################################
+# My custom executables                    #
+#    simply adds path to env variable PATH #
+# by Undy / Bologna, 25.5.2016             #
+############################################
+function add_path {
+    NEW_PATH=${1}
+    len=${#NEW_PATH}
+    lastch=${NEW_PATH:$((len-1)):1}
+    if [ "$lastch" == "/" ]; then
+        NEW_PATH=${NEW_PATH::-1}
+    fi
+    if [ -d ${NEW_PATH} ]; then
+        ok="yes"
+    else
+        ok="no"
+    fi
+    if [ "$ok" == "yes" ]; then
+        export PATH="${NEW_PATH}:$PATH"
+    else
+        echo "WARNING (add_path): '${NEW_PATH}' not found"
+    fi
+}
+
+##############################################################
+# My custom libraries                                        #
+#   adds `path-to-lib`     to UNDY_DIR_PATH                  #
+#   adds `path-to-lib/bin` to PATH (if it exists)            #
+#   adds `path-to-lib/lib` to LD_LIBRARY_PATH (if it exists) #
+# by Undy / Bologna, 17.4.2016                               #
+##############################################################
+function add_library {
+    NEW_LIB=${1}
+    ok=no
+    if [ -d ${NEW_LIB}/bin ]; then
+        export PATH="${NEW_LIB}/bin:$PATH"
+        ok="yes"
+    fi
+    if [ -d ${NEW_LIB}/lib ]; then
+        export LD_LIBRARY_PATH="${NEW_LIB}/lib:$LD_LIBRARY_PATH"
+        ok="yes"
+    fi
+    if [ "$ok" == "yes" ]; then
+        export UNDY_DIR_LIB="${NEW_LIB}:${UNDY_DIR_LIB}"
+    else
+        echo "WARNING (add_library): '${NEW_LIB}' not found"
+    fi
+}
+
+
+add_library "/opt/lib/szip-2.1"
+add_library "/opt/lib/zlib-1.2.8"
+add_library "/opt/lib/hdf5-1.8.16"
+#add_library "/opt/lib/openmpi-1.10.2"
+#add_library "/opt/lib/openmpi-2.0.2"
+add_library "/opt/lib/lis-1.7.25"
+add_library "/opt/lib/SuiteSparse-4.5.4"
+#add_library "/opt/lib/MUMPS-5.0.2"
+#add_library "/opt/lib/metis-5.1.0"
+
+
+add_path "/opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64"
+
+
+###############################################
+# Environment Modules set-up (v.2: 25/5/2016) #
+###############################################
+export MODULES="/usr/local/Modules/3.2.10"
+
+[ -f $MODULES/init/bash ] && . $MODULES/init/bash
+
+command -v module >/dev/null 2>&1 &&
+{
+    module unuse /media/ANDREA/PC/modulefiles
+
+    module use /home/andrea/Dropbox/Link_to_ANDREA/PC/modulefiles/
+    module use /opt/pgi/modulefiles
+
+    module load anaconda3
+    module load sage
+    module load julia
+    module load mathematica
+
+    #module load clawpack
+    #module load pgi/17.10
+} ||
+{
+    echo "[$THISFILE] WARNING! command 'module' not available"
+}
+
+
+# More aliases
+alias gvimtex='gvim -geometry 160x75+200+200 --servername vimtex'
+
+alias vim-python-ide='/opt/vim/v8.1.0664/bin/vim -u /opt/vim/v8.1.0664/../vimrc-python-ide'
+
+# https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
+alias config='/usr/bin/git --git-dir=$HOME/.undy-config --work-tree=$HOME'

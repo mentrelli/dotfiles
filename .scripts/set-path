@@ -1,0 +1,6 @@
+#! /bin/bash
+
+PATH="/opt/anaconda3/2018.12/bin:$PATH"
+PATH="/opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64:$PATH"
+
+export PATH

@@ -1,0 +1,349 @@
+# vim: filetype=i3
+
+# UNDY's i3 config file
+# Github: https://github.com/mentrelli
+
+# Environmental variables (such as $TERMINAL) to be used here
+# can be set in ~/.profile or ~/.bash_profilet as below:
+# export TERMINAL="urxvt"
+
+# set modifier
+set $mod Mod4
+
+# set some paths
+set $DIR_SCRIPTS ~/.scripts
+set $DIR_SCRIPTS_I3CMDS ~/.scripts/i3cmds
+set $ZOTERO /opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64/zotero
+set $SPYDER /opt/anaconda3/2018.12/bin/spyder
+
+# remap some keys
+exec_always --no-startup-id $DIR_SCRIPTS/remaps
+# set path
+exec_always --no-startup-id $DIR_SCRIPTS/set-path
+
+
+# Font for window titles (and bar, unless otherwise specified)
+font pango:Hack regular 10
+# font pango:ubuntu regular 11
+# font pango:DejaVu Sans Mono 8
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+
+for_window [class="^.*"] border pixel 2
+
+gaps inner 12
+gaps outer 12
+
+# General dropdown window traits. The order can matter.
+for_window [instance="dropdown_*"] floating enable
+for_window [instance="dropdown_*"] move scratchpad
+for_window [instance="dropdown_*"] sticky enable
+for_window [instance="dropdown_*"] scratchpad show
+#for_window [instance="dropdown_tmuxdd"] resize set 625 450
+#for_window [instance="dropdown_dropdowncalc"] resize set 800 300
+#for_window [instance="dropdown_tmuxdd"] border pixel 3
+#for_window [instance="dropdown_dropdowncalc"] border pixel 2
+for_window [instance="dropdown_*"] move position center
+
+
+ # set colors from Xresources, fall back to #000000 in case Xresources is missing
+ set_from_resource $darkblack    color0   #000000
+ set_from_resource $darkred      color1   #000000
+ set_from_resource $darkgreen    color2   #000000
+ set_from_resource $darkyellow   color3   #000000
+ set_from_resource $darkblue     color4   #000000
+ set_from_resource $darkmagenta  color5   #000000
+ set_from_resource $darkcyan     color6   #000000
+ set_from_resource $darkwhite    color7   #000000
+ set_from_resource $black        color8   #000000
+ set_from_resource $red          color9   #000000
+ set_from_resource $green        color10  #000000
+ set_from_resource $yellow       color11  #000000
+ set_from_resource $blue         color12  #000000
+ set_from_resource $magenta      color13  #000000
+ set_from_resource $cyan         color14  #000000
+ set_from_resource $white        color15  #000000
+ set $transparent                #00000000
+
+#                       BORDER      BACKGROUND      TEXT          INDICATOR       CHILD_BORDER
+client.focused          $green      $black          $darkblack    $darkmagenta    $green
+client.unfocused	$black      $darkblack      $black        $magenta        $black
+client.focused_inactive	$black      $darkblack      $black        $magenta        $black
+client.urgent		$darkred    $darkred        $black        $darkred        $darkred
+client.background $black
+
+set $mode_gaps        Gaps: (o)uter, (i)nner, (h)orizontal, (v)ertical, (t)op, (r)ight, (b)ottom, (l)eft
+set $mode_gaps_outer  Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner  Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_horiz  Horizontal Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_verti  Vertical Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_top    Top Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_right  Right Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_bottom Bottom Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_left   Left Gaps: +|-|0 (local), Shift + +|-|0 (global)
+
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym h      mode "$mode_gaps_horiz"
+        bindsym v      mode "$mode_gaps_verti"
+        bindsym t      mode "$mode_gaps_top"
+        bindsym r      mode "$mode_gaps_right"
+        bindsym b      mode "$mode_gaps_bottom"
+        bindsym l      mode "$mode_gaps_left"
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_horiz" {
+        bindsym plus  gaps horizontal current plus 5
+        bindsym minus gaps horizontal current minus 5
+        bindsym 0     gaps horizontal current set 0
+
+        bindsym Shift+plus  gaps horizontal all plus 5
+        bindsym Shift+minus gaps horizontal all minus 5
+        bindsym Shift+0     gaps horizontal all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_verti" {
+        bindsym plus  gaps vertical current plus 5
+        bindsym minus gaps vertical current minus 5
+        bindsym 0     gaps vertical current set 0
+
+        bindsym Shift+plus  gaps vertical all plus 5
+        bindsym Shift+minus gaps vertical all minus 5
+        bindsym Shift+0     gaps vertical all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_top" {
+        bindsym plus  gaps top current plus 5
+        bindsym minus gaps top current minus 5
+        bindsym 0     gaps top current set 0
+
+        bindsym Shift+plus  gaps top all plus 5
+        bindsym Shift+minus gaps top all minus 5
+        bindsym Shift+0     gaps top all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_right" {
+        bindsym plus  gaps right current plus 5
+        bindsym minus gaps right current minus 5
+        bindsym 0     gaps right current set 0
+
+        bindsym Shift+plus  gaps right all plus 5
+        bindsym Shift+minus gaps right all minus 5
+        bindsym Shift+0     gaps right all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_bottom" {
+        bindsym plus  gaps bottom current plus 5
+        bindsym minus gaps bottom current minus 5
+        bindsym 0     gaps bottom current set 0
+
+        bindsym Shift+plus  gaps bottom all plus 5
+        bindsym Shift+minus gaps bottom all minus 5
+        bindsym Shift+0     gaps bottom all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_left" {
+        bindsym plus  gaps left current plus 5
+        bindsym minus gaps left current minus 5
+        bindsym 0     gaps left current set 0
+
+        bindsym Shift+plus  gaps left all plus 5
+        bindsym Shift+minus gaps left all minus 5
+        bindsym Shift+0     gaps left all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+bindsym $mod+Return        exec --no-startup-id urxvt
+bindsym $mod+Shift+Return  exec --no-startup-id $DIR_SCRIPTS_I3CMDS/samedir
+
+bindsym $mod+q             kill
+bindsym $mod+Shift+q       kill
+
+bindsym $mod+h             focus left
+bindsym $mod+j             focus down
+bindsym $mod+k             focus up
+bindsym $mod+l             focus right
+
+bindsym $mod+Left          focus left
+bindsym $mod+Down          focus down
+bindsym $mod+Up            focus up
+bindsym $mod+Right         focus right
+
+bindsym $mod+Shift+h       move left
+bindsym $mod+Shift+j       move down
+bindsym $mod+Shift+k       move up
+bindsym $mod+Shift+l       move right
+
+bindsym $mod+Shift+Left    move left
+bindsym $mod+Shift+Down    move down
+bindsym $mod+Shift+Up      move up
+bindsym $mod+Shift+Right   move right
+
+bindsym $mod+o             split h
+bindsym $mod+v             split v
+
+bindsym $mod+f             fullscreen toggle
+
+bindsym $mod+s             layout stacking
+bindsym $mod+w             layout tabbed
+bindsym $mod+e             layout toggle split
+
+bindsym $mod+space         focus mode_toggle
+bindsym $mod+Shift+space   floating toggle
+
+bindsym $mod+a             focus parent
+bindsym $mod+Shift+a       focus child
+
+bindsym $mod+y             gaps inner current plus 5
+bindsym $mod+Shift+y       gaps inner current minus 5
+
+bindsym $mod+u             gaps outer current plus 5
+bindsym $mod+Shift+u       gaps outer current minus 5
+
+bindsym $mod+x             exec --no-startup-id lockscreen
+bindsym $mod+Shift+x       exec --no-startup-id prompt "Shutdown?" "$shutdown"
+bindsym $mod+Shift+e       exec "i3-nagbar -t warning -m 'Exit i3? ' -b 'Yes, go ahead.' 'i3-msg exit'"
+
+bindsym $mod+Shift+c       reload
+bindsym $mod+Shift+r       restart
+
+bindsym $mod+d             exec rofi -show run
+
+bindsym $mod+n             exec nemo
+bindsym $mod+Shift+w       exec chromium-browser
+bindsym $mod+Shift+f       exec firefox
+bindsym $mod+Shift+s       exec $SPYDER
+bindsym $mod+Shift+z       exec $ZOTERO
+
+set $ws1 "1:Terminals"
+set $ws2 "2:Web"
+set $ws3 "3:Python"
+set $ws4 "4:Julia"
+set $ws5 "5:Dev"
+set $ws6 "6:TeX"
+set $ws7 "7:..."
+set $ws8 "8:..."
+set $ws9 "9:amule"
+set $ws0 "10:Music"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws0
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws0
+
+
+
+assign [class="Thunderbird"] $ws2
+# assign [class="Chromium-browser"] $ws2
+assign [class="Spyder"] $ws3
+assign [class="Atom"] $ws4
+assign [class="Rhythmbox"] $ws0
+
+exec_always --no-startup-id $DIR_SCRIPTS/set-flux
+exec_always --no-startup-id $DIR_SCRIPTS/set-wallpaper
+exec --no-startup-id dropbox start
+exec --no-startup-id i3-msg 'workspace $ws1; exec urxvt'
+exec --no-startup-id i3-msg 'workspace $ws1; exec nemo'
+exec --no-startup-id i3-msg 'workspace $ws2; exec chromium-browser'
+exec --no-startup-id thunderbird
+exec --no-startup-id $SPYDER
+exec --no-startup-id atom
+exec --no-startup-id rhythmbox
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym h     resize shrink width 10 px or 10 ppt
+        bindsym j     resize grow height 10 px or 10 ppt
+        bindsym k     resize shrink height 10 px or 10 ppt
+        bindsym l     resize grow width 10 px or 10 ppt
+
+        bindsym Left  resize shrink width 5 px or 5 ppt
+        bindsym Down  resize grow height 5 px or 5 ppt
+        bindsym Up    resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        font pango:Ubuntu Mono 11
+	colors {
+			background $darkblack
+			statusline $darkwhite
+			separator $cyan
+			focused_workspace  $green   $green   $darkblack
+        		active_workspace   $green   $blue    $blue
+      			inactive_workspace $darkblack $darkblack $green
+        		urgent_workspace   $darkblack $darkred $darkblack
+		}
+        status_command i3status
+        tray_output primary
+}

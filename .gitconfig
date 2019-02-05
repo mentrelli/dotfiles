@@ -1,0 +1,20 @@
+[user]
+	name = Andrea Mentrelli
+	email = andrea.mentrelli@unibo.it
+[core]
+	autocrlf = input
+	safecrlf = true
+
+[merge]
+	tool = meld
+
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:'%h %ad [%an] |%d %s' --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+	l  = log --pretty=format:'%h | %ad | %s%d [%an]' --graph --date=iso
+	la = log --pretty=format:'%h | %ad | %s%d [%an]' --graph --date=iso --all

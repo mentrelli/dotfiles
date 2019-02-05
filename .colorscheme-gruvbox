@@ -1,0 +1,54 @@
+!   Normal      Bright
+!  --------    -------
+!  0 Black      8 Black
+!  1 Red        9 Red
+!  2 Yellow    10 Yellow
+!  3 Green     11 Green
+!  4 Blue      12 Blue
+!  5 Magenta   13 Magenta
+!  6 Cyan      14 Cyan
+!  7 White     15 White
+
+
+#define COLOR0   #1d2021
+#define COLOR1   #cc241d
+#define COLOR2   #98971a
+#define COLOR3   #d79921
+#define COLOR4   #458588
+#define COLOR5   #b16286
+#define COLOR6   #689d6a
+#define COLOR7   #a89984
+#define COLOR8   #928374
+#define COLOR9   #fb4934
+#define COLOR10  #b8bb26
+#define COLOR11  #fabd2f
+#define COLOR12  #83a598
+#define COLOR13  #d3869b
+#define COLOR14  #8ec07c
+#define COLOR15  #ebdbb2
+
+#define BACKGROUND  #1d1f21
+#define FOREGROUND  #c5c8c6
+
+!*.background: #1d1f21
+!*.foreground: #c5c8c6
+!
+!*.color0: #1d2021
+!*.color1: #cc241d
+!*.color2: #98971a
+!*.color3: #d79921
+!*.color4: #458588
+!*.color5: #b16286
+!*.color6: #689d6a
+!*.color7: #a89984
+!*.color8: #928374
+!!*.color9: #fb4934
+!*.color10: #b8bb26
+!*.color11: #fabd2f
+!*.color12: #83a598
+!*.color13: #d3869b
+!*.color14: #8ec07c
+!*.color15: #ebdbb2
+!
+!*.background: #1d1f21
+!*.foreground: #c5c8c6

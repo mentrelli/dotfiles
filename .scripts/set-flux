@@ -1,0 +1,10 @@
+#! /bin/bash
+
+
+# city        latitute  longitude   source
+# ----------- --------  ---------   --------------------------------------------
+# Forlì       44.22054   12.05245   https://latitudelongitude.org/it/forli/
+# Bologna     44.49381   11.33875   https://latitudelongitude.org/it/bologna/
+# Kolbermoor  47.84965   12.06696   https://latitudelongitude.org/de/kolbermoor/
+
+! pgrep -x xflux > /dev/null && xflux -l 44.5 -g 11.3
