@@ -13,7 +13,8 @@ set $mod Mod4
 # set some paths
 set $DIR_SCRIPTS ~/.scripts
 set $DIR_SCRIPTS_I3CMDS ~/.scripts/i3cmds
-set $ZOTERO /opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64/zotero
+#set $ZOTERO /opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64/zotero
+set $ZOTERO /opt/Zotero/zotero
 set $SPYDER /opt/anaconda3/2018.12/bin/spyder
 
 # remap some keys
@@ -38,11 +39,16 @@ for_window [instance="dropdown_*"] floating enable
 for_window [instance="dropdown_*"] move scratchpad
 for_window [instance="dropdown_*"] sticky enable
 for_window [instance="dropdown_*"] scratchpad show
+for_window [instance="dropdown_*"] resize set 800 400
+for_window [instance="dropdown_*"] border pixel 6
+exec --no-startup-id $term -n dropdown_terminal
+
 #for_window [instance="dropdown_tmuxdd"] resize set 625 450
 #for_window [instance="dropdown_dropdowncalc"] resize set 800 300
 #for_window [instance="dropdown_tmuxdd"] border pixel 3
 #for_window [instance="dropdown_dropdowncalc"] border pixel 2
 for_window [instance="dropdown_*"] move position center
+#for_window [name="Figure 101"] floating enable
 
 
  # set colors from Xresources, fall back to #000000 in case Xresources is missing
@@ -235,7 +241,7 @@ bindsym $mod+space         focus mode_toggle
 bindsym $mod+Shift+space   floating toggle
 
 bindsym $mod+a             focus parent
-bindsym $mod+Shift+a       focus child
+bindsym $mod+Shift+d       focus child
 
 bindsym $mod+y             gaps inner current plus 5
 bindsym $mod+Shift+y       gaps inner current minus 5
@@ -257,6 +263,10 @@ bindsym $mod+Shift+w       exec chromium-browser
 bindsym $mod+Shift+f       exec firefox
 bindsym $mod+Shift+s       exec $SPYDER
 bindsym $mod+Shift+z       exec $ZOTERO
+bindsym $mod+Shift+a       exec atom
+
+bindsym Print      exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures'
+bindsym $mod+Print exec gnome-screenshot -i
 
 set $ws1 "1:Terminals"
 set $ws2 "2:Web"

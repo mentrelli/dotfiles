@@ -57,7 +57,7 @@ URxvt.modifier:        meta  ! copy/paste-to-clipboard: Meta+Ctrl+C/V [Meta=Alt]
 ! URxvt.url-launcher:    chromium-browser
 
 URxvt.colorIT:      #87af5f
-URxvt.colorBD:      #808080
+URxvt.colorBD:      #abbddb
 URxvt.colorUL:      #87afd7
 
 !! Extensions

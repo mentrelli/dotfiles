@@ -182,7 +182,7 @@ add_library "/opt/lib/SuiteSparse-4.5.4"
 #add_library "/opt/lib/metis-5.1.0"
 
 
-add_path "/opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64"
+add_path "/opt/Zotero"
 
 
 ###############################################
