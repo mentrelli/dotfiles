@@ -219,3 +219,5 @@ alias vim-python-ide='/opt/vim/v8.1.0664/bin/vim -u /opt/vim/v8.1.0664/../vimrc-
 
 # https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
 alias config='/usr/bin/git --git-dir=$HOME/.undy-config --work-tree=$HOME'
+
+alias youtube-dl-mp3="youtube-dl --extract-audio --audio-format mp3"

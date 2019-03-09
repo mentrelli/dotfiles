@@ -4,18 +4,21 @@
 # Github: https://github.com/mentrelli
 
 # Environmental variables (such as $TERMINAL) to be used here
-# can be set in ~/.profile or ~/.bash_profilet as below:
+# can be set in ~/.profile or ~/.bash_profile as below:
 # export TERMINAL="urxvt"
 
 # set modifier
 set $mod Mod4
 
+set $TERMINAL /usr/bin/urxvt
+
 # set some paths
 set $DIR_SCRIPTS ~/.scripts
 set $DIR_SCRIPTS_I3CMDS ~/.scripts/i3cmds
-#set $ZOTERO /opt/Zotero-5.0.45_linux-x86_64/Zotero_linux-x86_64/zotero
+
 set $ZOTERO /opt/Zotero/zotero
 set $SPYDER /opt/anaconda3/2018.12/bin/spyder
+
 
 # remap some keys
 exec_always --no-startup-id $DIR_SCRIPTS/remaps
@@ -38,16 +41,16 @@ gaps outer 12
 for_window [instance="dropdown_*"] floating enable
 for_window [instance="dropdown_*"] move scratchpad
 for_window [instance="dropdown_*"] sticky enable
-for_window [instance="dropdown_*"] scratchpad show
-for_window [instance="dropdown_*"] resize set 800 400
-for_window [instance="dropdown_*"] border pixel 6
-exec --no-startup-id $term -n dropdown_terminal
+#for_window [instance="dropdown_*"] scratchpad show
+for_window [instance="dropdown_*"] resize set 1200 400
+for_window [instance="dropdown_*"] move position center
+for_window [instance="dropdown_*"] border pixel 5
+exec --no-startup-id $TERMINAL -name dropdown_terminal
 
 #for_window [instance="dropdown_tmuxdd"] resize set 625 450
 #for_window [instance="dropdown_dropdowncalc"] resize set 800 300
 #for_window [instance="dropdown_tmuxdd"] border pixel 3
 #for_window [instance="dropdown_dropdowncalc"] border pixel 2
-for_window [instance="dropdown_*"] move position center
 #for_window [name="Figure 101"] floating enable
 
 
@@ -202,7 +205,7 @@ mode "$mode_gaps_left" {
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-bindsym $mod+Return        exec --no-startup-id urxvt
+bindsym $mod+Return        exec --no-startup-id $TERMINAL
 bindsym $mod+Shift+Return  exec --no-startup-id $DIR_SCRIPTS_I3CMDS/samedir
 
 bindsym $mod+q             kill
@@ -218,15 +221,20 @@ bindsym $mod+Down          focus down
 bindsym $mod+Up            focus up
 bindsym $mod+Right         focus right
 
-bindsym $mod+Shift+h       move left
-bindsym $mod+Shift+j       move down
-bindsym $mod+Shift+k       move up
-bindsym $mod+Shift+l       move right
+#bindsym $mod+Shift+h       move left
+#bindsym $mod+Shift+j       move down
+#bindsym $mod+Shift+k       move up
+#bindsym $mod+Shift+l       move right
 
 bindsym $mod+Shift+Left    move left
 bindsym $mod+Shift+Down    move down
 bindsym $mod+Shift+Up      move up
 bindsym $mod+Shift+Right   move right
+
+bindsym $mod+Shift+h       resize shrink width  10 px or 10 ppt
+bindsym $mod+Shift+j       resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+k       resize grow   height 10 px or 10 ppt
+bindsym $mod+Shift+l       resize grow   width  10 px or 10 ppt
 
 bindsym $mod+o             split h
 bindsym $mod+v             split v
@@ -249,6 +257,12 @@ bindsym $mod+Shift+y       gaps inner current minus 5
 bindsym $mod+u             gaps outer current plus 5
 bindsym $mod+Shift+u       gaps outer current minus 5
 
+#bindsym $mod+u             gaps outer current set 0; gaps outer current set 0
+
+bindsym $mod+Prior         workspace prev
+bindsym $mod+Next          workspace next
+bindsym $mod+Tab           workspace back_and_forth
+
 bindsym $mod+x             exec --no-startup-id lockscreen
 bindsym $mod+Shift+x       exec --no-startup-id prompt "Shutdown?" "$shutdown"
 bindsym $mod+Shift+e       exec "i3-nagbar -t warning -m 'Exit i3? ' -b 'Yes, go ahead.' 'i3-msg exit'"
@@ -264,6 +278,8 @@ bindsym $mod+Shift+f       exec firefox
 bindsym $mod+Shift+s       exec $SPYDER
 bindsym $mod+Shift+z       exec $ZOTERO
 bindsym $mod+Shift+a       exec atom
+
+bindsym $mod+t             [instance="dropdown_terminal"] scratchpad show; [instance="dropdown_terminal"] move position center
 
 bindsym Print      exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures'
 bindsym $mod+Print exec gnome-screenshot -i
@@ -314,7 +330,7 @@ assign [class="Rhythmbox"] $ws0
 exec_always --no-startup-id $DIR_SCRIPTS/set-flux
 exec_always --no-startup-id $DIR_SCRIPTS/set-wallpaper
 exec --no-startup-id dropbox start
-exec --no-startup-id i3-msg 'workspace $ws1; exec urxvt'
+exec --no-startup-id i3-msg 'workspace $ws1; exec $TERMINAL'
 exec --no-startup-id i3-msg 'workspace $ws1; exec nemo'
 exec --no-startup-id i3-msg 'workspace $ws2; exec chromium-browser'
 exec --no-startup-id thunderbird
@@ -354,6 +370,6 @@ bar {
       			inactive_workspace $darkblack $darkblack $green
         		urgent_workspace   $darkblack $darkred $darkblack
 		}
-        status_command i3status
+        status_command i3blocks
         tray_output primary
 }
